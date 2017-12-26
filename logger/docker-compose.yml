@@ -1,0 +1,15 @@
+version: "2.0"
+
+services:
+  monitor:
+    build:
+      context: .
+      image: pimoroni-env-monitor
+    container_name: pimoroni-monitor
+    environment:
+      - INFLUX_HOST=192.168.0.15
+      - PI_HOST=living-room
+      - SAMPLE_PAUSE=30
+    restart: unless-stopped
+    labels:
+      org.label-schema.group: "environmental-monitoring"

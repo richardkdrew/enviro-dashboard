@@ -1,25 +1,56 @@
 version: "2.0"
-services:
-    influxdb:
-      image: influxdb
-      ports:
-       - "8086:8086"
-       - "8083:8083"
-      environment:
-#       - HTTP_PROXY=http://IP:3128
-#       - HTTPS_PROXY=http://IP:3128
-       - INFLUXDB_USER=root
-       - INFLUXDB_PASS=root
-       - INFLUXDB_NAME=stats
-    grafana:
-      image: grafana/grafana
-      environment:    
-#       - GF_INSTALL_PLUGINS=grafana-clock-panel
-#       - HTTP_PROXY=http://IP:3128
-#       - HTTPS_PROXY=http://IP:3128
-       - NO_PROXY="influxdb"
-      links:
-       - influxdb
-      ports:
-       - "3000:3000"
 
+networks:
+  env-monitor-net:
+    driver: bridge
+
+volumes:
+  influxdb_data: {}
+  grafana_data: {}
+
+services:
+  influxdb:
+    image: influxdb:alpine
+    container_name: influxdb
+    volumes:
+      - influxdb_data:/var/lib/influxdb
+    ports:
+      - "8086:8086"
+      - "8083:8083"
+    environment:
+      - INFLUXDB_USER=root
+      - INFLUXDB_PASS=root
+      - INFLUXDB_DB=environment
+      - INFLUXDB_NAME=environment
+    restart: unless-stopped
+    networks:
+      - env-monitor-net
+    labels:
+      org.label-schema.group: "environmental-monitoring"
+
+  grafana:
+    image: grafana/grafana
+    container_name: grafana
+    volumes:
+      - grafana_data:/var/lib/grafana
+      - ./grafana/datasources:/etc/grafana/datasources
+      - ./grafana/dashboards:/etc/grafana/dashboards
+      - ./grafana/setup.sh:/setup.sh
+    environment:    
+      - GF_SECURITY_ADMIN_USER=admin
+      - GF_SECURITY_ADMIN_PASSWORD=admin
+      - GF_USERS_ALLOW_SIGN_UP=false
+      - GF_INSTALL_PLUGINS=grafana-clock-panel
+      - NO_PROXY="influxdb"
+    entrypoint: /setup.sh
+    restart: unless-stopped
+    expose:
+      - 3000
+    networks:
+      - env-monitor-net
+    labels:
+      org.label-schema.group: "environmental-monitoring"
+    links:
+      - influxdb
+    ports:
+      - "3000:3000"

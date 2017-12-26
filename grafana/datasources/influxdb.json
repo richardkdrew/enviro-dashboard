@@ -1,0 +1,16 @@
+{
+  "orgId":1,
+  "name":"InfluxDb",
+  "type":"influxdb",
+  "typeLogoUrl":"public/app/plugins/datasource/influxdb/img/influxdb_logo.svg",
+  "access":"direct",
+  "url":"http://influxdb:8086",
+  "password":"root",
+  "user":"root",
+  "database":"environment",
+  "basicAuth":false,
+  "basicAuthUser":"",
+  "basicAuthPassword":"",
+  "withCredentials":false,
+  "isDefault":false
+}
