@@ -52,5 +52,7 @@ services:
       org.label-schema.group: "environmental-monitoring"
     links:
       - influxdb
+    depends_on:
+     - influxdb
     ports:
       - "3000:3000"
