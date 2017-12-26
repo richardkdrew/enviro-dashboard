@@ -4,7 +4,7 @@ services:
   monitor:
     build:
       context: .
-      image: pimoroni-env-monitor
+    image: pimoroni-monitor
     container_name: pimoroni-monitor
     environment:
       - INFLUX_HOST=192.168.0.15
