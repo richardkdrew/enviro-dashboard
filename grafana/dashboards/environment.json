@@ -16,7 +16,7 @@
         {
           "aliasColors": {},
           "bars": false,
-          "datasource": "flux",
+          "datasource": "InfluxDb",
           "editable": true,
           "error": false,
           "fill": 1,
@@ -138,7 +138,7 @@
         {
           "aliasColors": {},
           "bars": false,
-          "datasource": "flux",
+          "datasource": "InfluxDb",
           "editable": true,
           "error": false,
           "fill": 1,
@@ -259,7 +259,7 @@
         {
           "aliasColors": {},
           "bars": false,
-          "datasource": "flux",
+          "datasource": "InfluxDb",
           "editable": true,
           "error": false,
           "fill": 1,
