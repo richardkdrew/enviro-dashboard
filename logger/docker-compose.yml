@@ -5,7 +5,12 @@ services:
     build:
       context: .
     image: pimoroni-monitor
+    cap_add:
+      - SYS_RAWIO
     container_name: pimoroni-monitor
+    devices:
+      - "/dev/i2c-1"
+      - "/dev/mem"
     environment:
       - INFLUX_HOST=192.168.0.15
       - PI_HOST=living-room
